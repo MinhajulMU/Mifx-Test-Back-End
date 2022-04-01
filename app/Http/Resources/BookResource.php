@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\AuthorResource;
 
 class BookResource extends JsonResource
 {
@@ -16,6 +17,16 @@ class BookResource extends JsonResource
     {
         return [
             // @TODO implement
+            'id' => $this->id,
+            'isbn' => $this->isbn,
+            'title' => $this->title,
+            'description' => $this->description,
+            'published_year' => $this->published_year,
+            'authors' => AuthorResource::collection($this->authors),
+            'review' => [
+                'avg' => round($this->reviews->avg('review')),
+                'count' => $this->reviews->count()
+            ] 
         ];
     }
 }
